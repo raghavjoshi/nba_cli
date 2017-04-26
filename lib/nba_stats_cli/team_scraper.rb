@@ -1,4 +1,4 @@
-class TeamScraper
+class NbaStatsCli::TeamScraper
     def find_team_url(query)
         base_url = "http://www.basketball-reference.com/search/search.fcgi?search="
         agent = Mechanize.new

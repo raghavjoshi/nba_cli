@@ -1,8 +1,4 @@
 source 'https://rubygems.org'
 
-gem 'json'
-gem 'terminal-table'
-gem 'nokogiri'
-gem 'mechanize'
-gem 'pry'
-gem 'gruff'
+# Specify your gem's dependencies in nba_stats_cli.gemspec
+gemspec

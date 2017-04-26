@@ -1,4 +1,4 @@
-class PlayerScraper
+class NbaStatsCli::PlayerScraper
     # search for player's url
     def find_player_url(query)
         base_url = "http://www.basketball-reference.com/search/search.fcgi?search="

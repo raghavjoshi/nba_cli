@@ -1,7 +1,11 @@
-require 'bundler'
-Bundler.require
-
 require 'open-uri'
-require_relative 'app/current_scores'
-require_relative 'app/player_scraper'
-require_relative 'app/team_scraper'
+require 'mechanize'
+require 'nokogiri'
+require 'json'
+require 'terminal-table'
+require 'gruff'
+
+require_relative 'lib/nba_stats_cli/cli'
+require_relative 'lib/nba_stats_cli/current_scores'
+require_relative 'lib/nba_stats_cli/player_scraper'
+require_relative 'lib/nba_stats_cli/team_scraper'

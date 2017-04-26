@@ -1,4 +1,4 @@
-class CurrentScores
+class NbaStatsCli::CurrentScores
 
     # get all of the games
     def get_all

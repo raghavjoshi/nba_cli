@@ -1,6 +1,4 @@
-require_relative '../environment.rb'
-
-class NBA
+class NbaStatsCli::CLI
     def start
         welcome_command
         loop do
@@ -24,7 +22,7 @@ class NBA
         puts
         puts "Here's what we've found: "
         puts
-        agent = PlayerScraper.new
+        agent = NbaStatsCli::PlayerScraper.new
         url = agent.find_player_url(line)
         agent.scrape_information(url)
     end
@@ -55,13 +53,13 @@ class NBA
         puts
         puts "Here's what we've found: "
         puts
-        agent = TeamScraper.new
+        agent = NbaStatsCli::TeamScraper.new
         url = agent.find_team_url(name)
         agent.scrape_information(url, year, selected_option)
     end
 
     def scores
-        CurrentScores.new.print_games
+        NbaStatsCli::CurrentScores.new.print_games
     end
 
     def welcome_command
@@ -86,5 +84,3 @@ class NBA
         puts
     end
 end
-
-NBA.new.start
