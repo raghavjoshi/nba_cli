@@ -1,30 +1,15 @@
-# coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'nba_stats_cli/version'
-
 Gem::Specification.new do |spec|
   spec.name          = "nba_stats_cli"
-  spec.version       = NbaStatsCli::VERSION
+  spec.version       = '0.1.0'
+  spec.date        =   '2017-04-25'
   spec.authors       = ["raghavjoshi"]
   spec.email         = ["raghav.joshi.15@gmail.com"]
   spec.summary       = "NBA Statistics CLI tool"
   spec.description   = "A CLI tool for NBA player, team, and game statistics"
-  spec.homepage      = 'https://github.com/raghavjoshi/cis196-final-project'
+  spec.homepage      = 'https://github.com/raghavjoshi/nba_cli'
   spec.license       = "MIT"
-
-  # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
-  # to allow pushing to a single host or delete this section to allow pushing to any host.
-  if spec.respond_to?(:metadata)
-    spec.metadata['allowed_push_host'] = 'http://mygemserver.com'
-  else
-    raise "RubyGems 2.0 or newer is required to protect against " \
-      "public gem pushes."
-  end
-
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.require_paths = ["lib"]
+  spec.files = ["lib/nba_stats_cli.rb", "lib/nba_stats_cli/cli.rb", "lib/nba_stats_cli/player_scraper.rb", "lib/nba_stats_cli/team_scraper.rb", "lib/nba_stats_cli/current_scores.rb", "environment.rb"]
+  spec.executables  << 'nba_stats_cli'
 
   spec.add_development_dependency "bundler", "~> 1.14"
   spec.add_development_dependency "pry", ">= 0"
