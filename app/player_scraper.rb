@@ -1,9 +1,4 @@
-require 'mechanize'
-require 'open-uri'
-require 'nokogiri'
-require 'terminal-table'
-
-class Player
+class PlayerScraper
     # search for player's url
     def find_player_url(query)
         base_url = "http://www.basketball-reference.com/search/search.fcgi?search="

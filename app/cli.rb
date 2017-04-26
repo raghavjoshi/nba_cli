@@ -1,6 +1,4 @@
-require_relative 'current_scores'
-require_relative 'player'
-require_relative 'team'
+require_relative '../environment.rb'
 
 class NBA
     def start
@@ -26,7 +24,7 @@ class NBA
         puts
         puts "Here's what we've found: "
         puts
-        agent = Player.new
+        agent = PlayerScraper.new
         url = agent.find_player_url(line)
         agent.scrape_information(url)
     end
@@ -57,7 +55,7 @@ class NBA
         puts
         puts "Here's what we've found: "
         puts
-        agent = Team.new
+        agent = TeamScraper.new
         url = agent.find_team_url(name)
         agent.scrape_information(url, year, selected_option)
     end

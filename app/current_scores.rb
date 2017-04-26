@@ -1,9 +1,3 @@
-require 'open-uri'
-require 'nokogiri'
-require 'JSON'
-require 'terminal-table'
-
-
 class CurrentScores
 
     # get all of the games

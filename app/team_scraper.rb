@@ -1,9 +1,4 @@
-require 'mechanize'
-require 'open-uri'
-require 'nokogiri'
-require 'terminal-table'
-
-class Team
+class TeamScraper
     def find_team_url(query)
         base_url = "http://www.basketball-reference.com/search/search.fcgi?search="
         agent = Mechanize.new

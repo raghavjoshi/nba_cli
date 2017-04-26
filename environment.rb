@@ -1,5 +1,7 @@
-# Set up environment variables
-ENV['SINATRA_ENV'] ||= 'development'
+require 'bundler'
+Bundler.require
 
-ENV['SINATRA_DB'] ||= ':memory:' if ENV['SINATRA_ENV'] == 'test'
-ENV['SINATRA_DB'] ||= "db/#{ENV['SINATRA_ENV']}.sqlite3"
+require 'open-uri'
+require_relative 'app/current_scores'
+require_relative 'app/player_scraper'
+require_relative 'app/team_scraper'
