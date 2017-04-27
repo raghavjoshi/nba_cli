@@ -8,7 +8,8 @@ user the ability to find stats/information about a player, team, and find
 live/past/upcoming games.
 
 ## Installation
-`gem install bundler` if you haven't already and then execute the `bundle` command.
+* Install the gem with `gem install nba_stats_cli`
+* Execute `nba_stats_cli` to run the program
 
 ## Usage
 

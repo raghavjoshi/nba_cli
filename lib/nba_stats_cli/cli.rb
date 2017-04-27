@@ -20,11 +20,21 @@ class NbaStatsCli::CLI
         line = gets.strip
         puts "You've searched for: #{line}"
         puts
+        puts "Would you like to graph any of the following:"
+        puts "1) Shooting statistics"
+        puts "2) Defensive statistics"
+        puts "3) No I'm good.."
+        puts 
+        graph = gets.strip
         puts "Here's what we've found: "
         puts
         agent = NbaStatsCli::PlayerScraper.new
         url = agent.find_player_url(line)
-        agent.scrape_information(url)
+        case graph
+        when "1" then agent.scrape_information(url, 1)
+        when "2" then agent.scrape_information(url, 2)
+        when "3" then agent.scrape_information(url, 0)
+        end
     end
 
     def team(query)

@@ -8,6 +8,7 @@ class NbaStatsCli::PlayerScraper
         text_found = doc.xpath('//div[@id="content"]//strong[text()="0 hits"]')
         if text_found.empty?
             page = agent.get(base_url+format_query(query)).links_with(:href => /.html/)
+            puts page[0].uri
             return page[0].uri
         else
             return nil
@@ -15,14 +16,16 @@ class NbaStatsCli::PlayerScraper
     end
 
     # scrape player's information
-    def scrape_information(player_url)
+    def scrape_information(player_url, graph_opt)
         if player_url.nil?
             puts "No player found"
             return
         end
+        # Navigate to player's page and instantiate containers for statistics
         base_url = "http://www.basketball-reference.com#{player_url}"
         doc = Nokogiri::HTML(open(base_url))
-        collected = []
+        collected, player_age, two_point, three_point, efg, orb, drb, stl, blk = Array.new(9) { [] }
+
         # get name
         name = doc.xpath('//h1[@itemprop="name"]/text()')
 
@@ -44,7 +47,15 @@ class NbaStatsCli::PlayerScraper
         puts "Statistics for: #{name}"
         rows = doc.xpath('//tr[@class="full_table"]')
         rows.each do |row|
-            collected << [row.at_xpath('td[1]//text()').to_s.strip,
+            player_age << row.at_xpath('td[1]//text()').to_s.strip
+            three_point << row.at_xpath('td[13]//text()').to_s.strip
+            two_point << row.at_xpath('td[16]//text()').to_s.strip
+            efg << row.at_xpath('td[17]//text()').to_s.strip
+            orb << row.at_xpath('td[21]//text()').to_s.strip
+            drb << row.at_xpath('td[22]//text()').to_s.strip
+            stl << row.at_xpath('td[25]//text()').to_s.strip
+            blk << ('td[26]//text()').to_s.strip
+            collected << [row.at_xpath('td[1]//text()').to_s.strip,         #age
                           row.at_xpath('td[2]/a//text()').to_s.strip,
                           row.at_xpath('td[4]//text()').to_s.strip,
                           row.at_xpath('td[5]//text()').to_s.strip,
@@ -75,15 +86,67 @@ class NbaStatsCli::PlayerScraper
         end
 
         table_out = Terminal::Table.new :headings => ['Age', 'Team', 'Pos.', 'G',
-            'GS', 'Min.', 'FG', 'FGA', 'FG%', '3P', '3PA', '3P%', '2P',
-            '2PA', '2P%', 'eFG%', 'FT', 'FT%','ORB', 'DRB', 'TRB', 'AST', 'STL', 'BLK',
+            'GS', 'FG', 'FGA', 'FG%', '3P', '3PA', '3P%', '2P',
+            '2PA', '2P%', 'eFG%', 'FT', 'FTA', 'FT%','ORB', 'DRB', 'TRB', 'AST', 'STL', 'BLK',
             'TOV','PF', 'PTS'], :rows => collected
 
         puts table_out
+
+        case graph_opt
+        when 1 then graph_player_shooting(name.to_s, player_age, two_point, three_point, efg)
+        when 2 then graph_player_defensive(name.to_s, player_age, orb, drb, stl, blk)
+        else puts " "
+        end
+
     end
 
     def format_query(query)
         "#{query.gsub(/\s/, '+')}"
+    end
+
+    def graph_player_shooting(name, age_lst, two_point_lst, three_point_lst, efg_lst)
+        # Instantiate Gruff and set label
+        g = Gruff::Line.new
+        g.title = "#{name} Shooting Statistics"
+
+        # Get Float values from string
+        two_point_lst = two_point_lst.flatten.collect { |i| i.to_f * 100}
+        three_point_lst = three_point_lst.flatten.collect { |i| i.to_f * 100}
+        efg_lst = efg_lst.flatten.collect { |i| i.to_f * 100}
+
+        # Set labels and graph data
+        g.labels = Hash[(0...age_lst.size).zip age_lst]
+        g.data("2P%", two_point_lst)
+        g.data("3P%", three_point_lst)
+        g.data("EFG%", efg_lst)
+
+        # Write data to folder and open image
+        g.write("lib/nba_stats_cli/img/#{name.downcase}_offensive.png")
+        Launchy.open("lib/nba_stats_cli/img/#{name.downcase}_offensive.png")
+    end
+
+
+    def graph_player_defensive(name, age_lst, orb_lst, drb_lst, stl_lst, blk_lst)
+        # Instantiate Gruff and set label
+        g = Gruff::Line.new
+        g.title = "#{name} Defensive Statistics"
+
+        # Get Float values from string
+        orb_lst = orb_lst.flatten.collect { |i| i.to_f }
+        drb_lst = drb_lst.flatten.collect { |i| i.to_f }
+        stl_lst = stl_lst.flatten.collect { |i| i.to_f }
+        blk_lst = blk_lst.flatten.collect { |i| i.to_f }
+
+        # Set labels and graph data
+        g.labels = Hash[(0...age_lst.size).zip age_lst]
+        g.data("Offensive Reb.", orb_lst)
+        g.data("Defensive Reb.", drb_lst)
+        g.data("Steals", stl_lst)
+        g.data("Blocks", blk_lst)
+
+        # Write data to folder and open image
+        g.write("lib/nba_stats_cli/img/#{name.downcase}_defensive.png")
+        Launchy.open("lib/nba_stats_cli/img/#{name.downcase}_defensive.png")
     end
 
 end
