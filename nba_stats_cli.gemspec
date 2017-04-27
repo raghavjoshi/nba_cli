@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name          = "nba_stats_cli"
-  spec.version       = '0.1.1'
+  spec.version       = '0.1.3'
   spec.date        =   '2017-04-25'
   spec.authors       = ["raghavjoshi"]
   spec.email         = ["raghav.joshi.15@gmail.com"]
@@ -9,7 +9,9 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/raghavjoshi/nba_cli'
   spec.license       = "MIT"
   spec.files = ["lib/nba_stats_cli.rb", "lib/nba_stats_cli/cli.rb", "lib/nba_stats_cli/player_scraper.rb", "lib/nba_stats_cli/team_scraper.rb", "lib/nba_stats_cli/current_scores.rb", "environment.rb"]
-  spec.executables  = spec.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
+  spec.executables  << "nba_stats_cli"
+  spec.require_paths = ["lib", "lib/nba_stats_cli"]
+
 
   spec.add_development_dependency "bundler", "~> 1.14"
   spec.add_development_dependency "pry", ">= 0"

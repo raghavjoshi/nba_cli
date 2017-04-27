@@ -115,9 +115,14 @@ class NbaStatsCli::PlayerScraper
         g.data("3P%", three_point_lst)
         g.data("EFG%", efg_lst)
 
+        # See if directory exists
+        unless File.exists?("img/")
+            FileUtils::mkdir_p 'img/'
+        end
+
         # Write data to folder and open image
-        g.write("lib/nba_stats_cli/img/#{name.downcase}_offensive.png")
-        Launchy.open("lib/nba_stats_cli/img/#{name.downcase}_offensive.png")
+        g.write("img/#{name.downcase}_offensive.png")
+        Launchy.open("img/#{name.downcase}_offensive.png")
     end
 
 
@@ -139,9 +144,14 @@ class NbaStatsCli::PlayerScraper
         g.data("Steals", stl_lst)
         g.data("Blocks", blk_lst)
 
+        # See if directory exists
+        unless File.exists?("img/")
+            FileUtils::mkdir_p 'img/'
+        end
+
         # Write data to folder and open image
-        g.write("lib/nba_stats_cli/img/#{name.downcase}_defensive.png")
-        Launchy.open("lib/nba_stats_cli/img/#{name.downcase}_defensive.png")
+        g.write("img/#{name.downcase}_defensive.png")
+        Launchy.open("img/#{name.downcase}_defensive.png")
     end
 
 end

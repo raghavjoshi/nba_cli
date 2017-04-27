@@ -5,6 +5,7 @@ require 'json'
 require 'terminal-table'
 require 'gruff'
 require 'launchy'
+require 'fileutils'
 
 require_relative 'lib/nba_stats_cli/cli'
 require_relative 'lib/nba_stats_cli/current_scores'
