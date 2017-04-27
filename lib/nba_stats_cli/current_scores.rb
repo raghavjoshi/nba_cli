@@ -1,6 +1,7 @@
 class NbaStatsCli::CurrentScores
 
     # get all of the games
+    # :nocov:
     def get_all
         url = 'https://ca.sports.yahoo.com/__xhr/sports/scorestrip-gs/?d=full&b=&format=realtime&league=nba'
         json = JSON.parse(open(url).read)['content']
@@ -41,4 +42,5 @@ class NbaStatsCli::CurrentScores
             end
         end
     end
+    # :nocov:
 end

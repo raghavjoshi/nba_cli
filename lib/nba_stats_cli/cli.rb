@@ -1,4 +1,5 @@
 class NbaStatsCli::CLI
+    # :nocov:
     def start
         welcome_command
         loop do
@@ -24,7 +25,7 @@ class NbaStatsCli::CLI
         puts "1) Shooting statistics"
         puts "2) Defensive statistics"
         puts "3) No I'm good.."
-        puts 
+        puts
         graph = gets.strip
         puts "Here's what we've found: "
         puts
@@ -93,4 +94,5 @@ class NbaStatsCli::CLI
         puts "Enter 5 to exit"
         puts
     end
+    # # :nocov:
 end

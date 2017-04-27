@@ -3,12 +3,11 @@ class NbaStatsCli::PlayerScraper
     def find_player_url(query)
         base_url = "http://www.basketball-reference.com/search/search.fcgi?search="
         agent = Mechanize.new
-        doc = Nokogiri::HTML(open(base_url+format_query(query)))
+        doc = Nokogiri::HTML(open(base_url+"#{query.gsub(/\s/, '+')}"))
         # see if there are no results found
         text_found = doc.xpath('//div[@id="content"]//strong[text()="0 hits"]')
         if text_found.empty?
-            page = agent.get(base_url+format_query(query)).links_with(:href => /.html/)
-            puts page[0].uri
+            page = agent.get(base_url+"#{query.gsub(/\s/, '+')}").links_with(:href => /.html/)
             return page[0].uri
         else
             return nil
@@ -97,11 +96,7 @@ class NbaStatsCli::PlayerScraper
         when 2 then graph_player_defensive(name.to_s, player_age, orb, drb, stl, blk)
         else puts " "
         end
-
-    end
-
-    def format_query(query)
-        "#{query.gsub(/\s/, '+')}"
+        return true
     end
 
     def graph_player_shooting(name, age_lst, two_point_lst, three_point_lst, efg_lst)

@@ -14,7 +14,7 @@ class NbaStatsCli::TeamScraper
 
     # Scrape Information based on option
     def scrape_information(team_url, year, selected_option)
-        if team_url.nil? || team_url.include?("player")
+        if team_url.nil?
             puts "No team found"
             return
         end
@@ -30,7 +30,7 @@ class NbaStatsCli::TeamScraper
         end
 
     end
-
+    # :nocov:
     def find_roster(url)
         doc = Nokogiri::HTML(open(url))
         rows = doc.xpath('//div[@id="div_roster"]//tr')
@@ -123,7 +123,7 @@ class NbaStatsCli::TeamScraper
             'Opp.', 'Result', 'OT', 'PTS', 'OPP PTS', 'W', 'L', 'Streak'], :rows => collected
         puts table_out
     end
-
+    # :nocov:
     def format_query(query)
         "#{query.gsub(/\s/, '+')}"
     end
